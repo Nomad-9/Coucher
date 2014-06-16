@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ts.coucher.MainActivity" >
+
+    <item
+        android:id="@+id/action_create"
+        android:orderInCategory="100"
+        android:title="@string/action_create"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_retrieve"
+        android:orderInCategory="100"
+        android:title="@string/action_retrieve"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_update"
+        android:orderInCategory="100"
+        android:title="@string/action_update"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="100"
+        android:title="@string/action_delete"
+        app:showAsAction="never"/>
+
+</menu>

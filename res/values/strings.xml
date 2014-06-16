@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Coucher</string>
+    <string name="hello_couchbase">Couchbase Lite CRUD</string>
+    
+    <string name="action_create">Create</string>
+    <string name="action_retrieve">Retrieve</string>
+    <string name="action_update">Update</string>
+    <string name="action_delete">Delete</string>
+    
+    <string name="err_create_manager">Cannot create manager object</string>
+    <string name="err_db_name">Bad database name</string>
+    <string name="err_no_db_set">Database not set ! Please create database first.</string>
+    <string name="err_no_db">Cannot get database</string>
+    <string name="err_db_write">Cannot write document to database</string>
+    <string name="err_db_update">Cannot update document</string>
+    <string name="err_db_delete">Cannot delete document</string>
+    
+    <string name="not_implemented">Not Implemented!</string>
+    <string name="db_success">It all works!</string>
+
+</resources>

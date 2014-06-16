@@ -1,0 +1,19 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/scroller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+             
+ <FrameLayout  android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.ts.coucher.MainActivity"
+    tools:ignore="MergeRootFrame" >
+    
+     <com.ts.coucher.util.Typewriter android:id="@+id/output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_couchbase" />
+    
+  </FrameLayout>
+</ScrollView>
