@@ -125,7 +125,7 @@ public class CbDatabase {
 			Document doc = database.getDocument(docId);
 			
 			// this alternative way is better for handling write conflicts 
-			/*doc.update(new Document.DocumentUpdater() {
+			doc.update(new Document.DocumentUpdater() {
 			    @Override
 			    public boolean update(UnsavedRevision newRevision) {
 			    	Map<String, Object> properties = newRevision.getUserProperties();
@@ -133,19 +133,14 @@ public class CbDatabase {
 			    	newRevision.setUserProperties(properties);
 			        return true;
 			    }
-			});*/
+			});
 			
-			Map<String, Object> docContent = doc.getProperties();
-			/* Working on a copy of the document properties is helpful because 
-			   to update a document successfully we need to include the current 
-			   revision identifier. */ 
+		/*	Map<String, Object> docContent = doc.getProperties();
+			//Working on a copy 
 			Map<String, Object> updatedContent = new HashMap<String, Object>();
 			updatedContent.putAll(docContent); 
 			updatedContent.put(key, value);
-			doc.putProperties(updatedContent);
-			/* When a document is updated, Cb Lite creates a new revision 
-			   of the document that contains a new revision identifier in the _rev property. 
-			   The document identifier in _id always remains the same.*/
+			doc.putProperties(updatedContent);*/
 		} 
 		catch (CouchbaseLiteException e) {
 			ErrorChecker.ShowException(ctx, R.string.err_db_update, e ) ;
