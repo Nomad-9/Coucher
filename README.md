@@ -1,4 +1,4 @@
 Coucher
 =======
 
-Couchbase Lite on Android 
+Couchbase Lite on Android - Basic CRUD operations.
