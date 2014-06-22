@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Coucher</string>
-    <string name="hello_couchbase">Couchbase Lite CRUD</string>
+    <string name="hello_couchbase">Couchbase Lite</string>
     
     <string name="action_create">Create</string>
     <string name="action_retrieve">Retrieve</string>
@@ -16,6 +16,10 @@
     <string name="err_db_write">Cannot write document to database</string>
     <string name="err_db_update">Cannot update document</string>
     <string name="err_db_delete">Cannot delete document</string>
+    
+    <string name="err_write_attach">Cannot save attachment</string>
+    <string name="err_read_attach">Cannot read attachment</string>
+    <string name="err_delete_attach">Cannot delete attachment</string>
     
     <string name="not_implemented">Not Implemented!</string>
     <string name="db_success">It all works!</string>

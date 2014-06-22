@@ -31,8 +31,8 @@ public class MainActivity extends ActionBarActivity {
 		output.setCharacterDelay(35);	
 		
 		CbHelper helper = new CbHelper(this);
-		helper.doCRUD(output);
-        scrollDown();
+		helper.process(output);
+		scrollDown();
 			
 		// display success
 		//Toast.makeText(this, R.string.db_success, Toast.LENGTH_LONG).show();

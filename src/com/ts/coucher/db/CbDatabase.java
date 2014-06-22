@@ -1,15 +1,17 @@
 package com.ts.coucher.db;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
-
-
 
 import com.couchbase.lite.*;
 import com.couchbase.lite.android.AndroidContext;
+import com.couchbase.lite.replicator.Replication;
 import com.ts.coucher.R;
 import com.ts.coucher.util.ErrorChecker;
+import com.ts.coucher.util.Keys.Replica;
+import com.ts.coucher.util.Keys.Span;
 
 import android.content.Context;
 
@@ -23,6 +25,8 @@ public class CbDatabase {
 	private Database database;
 	private android.content.Context ctx;
 	private Manager manager;
+	// keep a reference to a running replication to avoid GC
+	private Replication replica;
 	
     /**
      * Ctor
@@ -62,6 +66,95 @@ public class CbDatabase {
 	public void close(){
 		if(manager != null){
 			manager.close();
+		}
+	}
+	
+	/* Replication *********************************/
+	
+	/**
+	 * Create a push/pull Replica that is continuous/one-shot
+	 * @param remote URL (Server or P2P)
+	 * @param push: local DB --> remote DB  
+	 *        pull: remote DB --> local DB
+	 * @param continuous: stay active indefinitely,
+	 *        one-shot: transfer all changes, then quit.
+	 * @return
+	 */
+	public Replication startReplica( URL remote, Replica pushOrPull, Span span){
+		
+		replica = (pushOrPull == Replica.PUSH) 
+				   ? database.createPushReplication(remote)
+				   : database.createPullReplication(remote);
+		
+		replica.setContinuous(span == Span.CONTINUOUS ? true : false);
+		replica.start();//a replication runs asynchronously
+		
+		return replica;
+	}
+	
+	/**
+	 * A replica can be active/stopped/off-line/idle
+	 * @param rep
+	 * @return
+	 */
+	public boolean isReplicaActive( Replication rep){
+		return rep != null && (rep.getStatus() == 
+				Replication.ReplicationStatus.REPLICATION_ACTIVE);
+	}
+	
+	/* Attachments *********************************/
+	
+	/**
+	 * Write an Attachment for a given Document
+	 * @param docId
+	 * @param attachName
+	 * @param mimeType  e.g. "image/jpeg"
+	 * @param stream
+	 */
+	 public void writeAttachment(String docId, String attachName, 
+			                    String mimeType, InputStream in){
+		
+		 try {
+			 Document doc = database.getDocument(docId);
+			 UnsavedRevision newRev = doc.getCurrentRevision().createRevision();
+			 newRev.setAttachment(attachName, mimeType, in);
+			 newRev.save();
+		} 
+		 catch (CouchbaseLiteException e) {
+			 ErrorChecker.ShowException(ctx, R.string.err_write_attach, e );
+		}
+	 }
+	 
+	 
+	/**
+	 * Get a given Document's attachment if any
+	 * @param docId
+	 * @param attchName
+	 * @return Attachment
+	 */
+	public Attachment getAttachment(String docId, String attachName){
+		
+		Document doc = database.getDocument(docId);
+		Revision rev = doc.getCurrentRevision();
+		return rev.getAttachment(attachName);
+	}
+	
+	/**
+	 * Remove an Attachment from a Document
+	 * @param docId
+	 * @param attachName
+	 */
+	public void deleteAttachment(String docId, String attachName){
+		
+		try {
+			Document doc = database.getDocument(docId);
+			UnsavedRevision newRev = doc.getCurrentRevision().createRevision();
+			newRev.removeAttachment(attachName);
+			// (You could also update newRev.properties while you're here)
+			newRev.save();
+		} 
+		catch (CouchbaseLiteException e) {
+			 ErrorChecker.ShowException(ctx, R.string.err_delete_attach, e );
 		}
 	}
 	
