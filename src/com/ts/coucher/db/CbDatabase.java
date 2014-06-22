@@ -3,6 +3,7 @@ package com.ts.coucher.db;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.couchbase.lite.*;
@@ -169,7 +170,7 @@ public class CbDatabase {
 	public String create( Map<String, Object> docContent ){
 		
 		if( ! ErrorChecker.checkDb(ctx, database)){
-			return null;
+			return "";
 		}		
 		// create an empty document
 		Document doc = database.createDocument();
@@ -179,7 +180,7 @@ public class CbDatabase {
 		} 
 		catch (CouchbaseLiteException e) {
 			ErrorChecker.ShowException(ctx, R.string.err_db_write, e ) ;
-			return null;
+			return "";
 		}
 		return doc.getId();   
 	}
@@ -192,7 +193,7 @@ public class CbDatabase {
 	public Map<String, Object> retrieve(String docId){
 		
 		if( ! ErrorChecker.checkDb(ctx, database)){
-			return null;
+			return new HashMap<String, Object>();//empty
 		}			
 		// retrieve the document from the database
 		Document doc = database.getDocument(docId);
